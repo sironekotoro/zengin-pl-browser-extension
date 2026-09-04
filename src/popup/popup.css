@@ -27,10 +27,10 @@
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
-  width: 380px;
-  max-width: 100%;
+  min-height: 100%;
   font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
   color: var(--fg);
   background: var(--bg);
@@ -100,6 +100,12 @@ button:disabled {
   cursor: default;
 }
 
+.hint {
+  font-size: 11px;
+  color: var(--muted);
+  margin: 4px 0 0;
+}
+
 .status {
   min-height: 16px;
   font-size: 12px;
@@ -111,7 +117,7 @@ button:disabled {
   list-style: none;
   margin: 0;
   padding: 0;
-  max-height: 140px;
+  max-height: 220px;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 6px;

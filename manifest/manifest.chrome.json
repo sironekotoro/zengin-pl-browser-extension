@@ -4,7 +4,6 @@
   "version": "0.1.0",
   "description": "銀行名・銀行コード・支店名・支店コードを検索し、コピーできる拡張機能です。",
   "action": {
-    "default_popup": "popup.html",
     "default_title": "全銀コード検索",
     "default_icon": {
       "16": "icons/icon16.png",
