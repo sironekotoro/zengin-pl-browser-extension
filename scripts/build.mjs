@@ -34,7 +34,13 @@ await cp(
   path.join(root, 'docs/images/pin-to-toolbar.gif'),
   path.join(outdir, 'pin-to-toolbar.gif'),
 );
-await cp(path.join(root, 'src/icons'), path.join(outdir, 'icons'), { recursive: true });
+// src/icons/ には icon サイズのPNG以外に、同期元SVGのピン留め用ファイル
+// (source.svg, source.ref)も置かれているが、これらは配布パッケージには不要。
+await mkdir(path.join(outdir, 'icons'), { recursive: true });
+for (const size of [16, 48, 128]) {
+  const fileName = `icon${size}.png`;
+  await cp(path.join(root, 'src/icons', fileName), path.join(outdir, 'icons', fileName));
+}
 await cp(path.join(root, `manifest/manifest.${target}.json`), path.join(outdir, 'manifest.json'));
 
 console.log(`Built ${target} extension into dist/${target}`);
