@@ -41,9 +41,19 @@ const onboardingApi: OnboardingApi = {
 
 const tracker: WindowTracker = { windowId: undefined };
 
+// Chrome(MV3)のservice workerは頻繁に休止・再起動され、その際にトップレベルの
+// コードが毎回最初から実行される。onInstalled(インストール/更新/ブラウザ更新時
+// のみ発火)だけに頼ると、開発中の手動リロード等でメニューが登録されないまま
+// 動かなくなることがあるため、service worker起動のたびに必ず(冪等に)登録し直す。
+void registerContextMenu(contextMenuApi);
+
 browser.runtime.onInstalled.addListener((details) => {
   void registerContextMenu(contextMenuApi);
   void maybeShowOnboarding(onboardingApi, details.reason);
+});
+
+browser.runtime.onStartup.addListener(() => {
+  void registerContextMenu(contextMenuApi);
 });
 
 browser.contextMenus.onClicked.addListener((info) => {

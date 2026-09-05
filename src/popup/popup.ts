@@ -5,6 +5,7 @@ import { debounce } from '../shared/debounce';
 import { toHalfWidthKana } from '../shared/kana';
 import { isSeedSearchMessage } from '../shared/messages';
 import { takePendingSearchTerm } from '../shared/pendingSearch';
+import { computeExpandedWindowHeight } from '../shared/windowFit';
 
 const SEARCH_DEBOUNCE_MS = 400;
 
@@ -173,8 +174,36 @@ async function selectBranch(branchSummary: BranchSummary): Promise<void> {
     const result = await getBranch(bank.code, branchSummary.code);
     renderDetail(result.bank, bank, result.branch);
     setStatus(branchStatus, '');
+    void fitWindowToContent();
   } catch (err) {
     setStatus(branchStatus, describeError(err));
+  }
+}
+
+/**
+ * 支店の詳細が表示されてスクロールが必要になった分だけ、ウィンドウを縦方向に
+ * 拡張してスクロールなしで情報を確認できるようにする。取得・更新に失敗しても
+ * 致命的ではないため、エラーは握りつぶす。
+ */
+async function fitWindowToContent(): Promise<void> {
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+  try {
+    const win = await browser.windows.getCurrent();
+    if (win.id === undefined || win.height === undefined) return;
+
+    const targetHeight = computeExpandedWindowHeight({
+      windowHeight: win.height,
+      windowTop: win.top ?? 0,
+      contentHeight: document.documentElement.scrollHeight,
+      viewportHeight: window.innerHeight,
+      screenAvailHeight: window.screen.availHeight || win.height,
+    });
+
+    if (targetHeight !== null) {
+      await browser.windows.update(win.id, { height: targetHeight });
+    }
+  } catch {
+    // ウィンドウのリサイズに失敗しても致命的ではないため無視する。
   }
 }
 
