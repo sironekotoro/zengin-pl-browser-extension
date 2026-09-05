@@ -70,6 +70,8 @@ scripts/       ビルドスクリプト・アイコン生成スクリプト
 
 これに対応するため、初回インストール時（`runtime.onInstalled` の `reason === 'install'`）にのみ、ピン留め手順を説明する案内ページ（`src/onboarding/onboarding.html`）を新しいタブで開きます（`src/background/onboarding.ts`）。アップデート時やブラウザ更新時には表示しません。`tabs.create()` で自拡張機能のページを開くだけなので、追加の権限は必要ありません。
 
+Chrome/Edgeの手順には、実際の操作を撮影したアニメーションGIF（`docs/images/pin-to-toolbar.gif`）を掲載しています。ビルド時に `scripts/build.mjs` が拡張機能パッケージ内へコピーするため、オフラインでも表示されます（外部URLへは接続しません）。
+
 ## APIとの通信
 
 - **固定URL:** `https://api.zengin.sironekotoro.com` のみに接続します（`host_permissions` もこの1オリジンに限定）。`*.run.app` のような内部URLはコードに含めていません。
