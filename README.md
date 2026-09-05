@@ -89,6 +89,10 @@ Chrome/Edgeの手順には、実際の操作を撮影したアニメーション
 
 任意サイトの内容を読み取る権限、広いホスト権限、フォーム自動入力、解析・広告・トラッキングは追加していません。
 
+### Firefoxのデータ収集開示(data_collection_permissions)
+
+Firefox(AMO)は2026年から、拡張機能が送信するデータの種類を `manifest.json` の `browser_specific_settings.gecko.data_collection_permissions` で申告することを新規の拡張機能に義務付けています。本拡張機能は検索語(銀行名・支店名等)を検索APIへ送信するため、`"required": ["searchTerms"]` を申告しています(データを一切送信しない場合の値は `["none"]`ですが、実態と異なるため使用していません)。
+
 ## セットアップ
 
 ```bash
