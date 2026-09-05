@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "全銀コード検索",
+  "version": "0.1.0",
+  "description": "銀行名・銀行コード・支店名・支店コードを検索し、コピーできる拡張機能です。",
+  "action": {
+    "default_title": "全銀コード検索",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "host_permissions": ["https://api.zengin.sironekotoro.com/*"],
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

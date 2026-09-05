@@ -1,0 +1,158 @@
+:root {
+  color-scheme: light dark;
+  --fg: #1a1a1a;
+  --bg: #ffffff;
+  --bg-alt: #f7f9fc;
+  --border: #d0d5dd;
+  --accent: #1565c0;
+  --accent-fg: #ffffff;
+  --muted: #5f6368;
+  --card: #f2f6fc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #e8eaed;
+    --bg: #17181a;
+    --bg-alt: #1c1e21;
+    --border: #3a3d41;
+    --accent: #8ab4f8;
+    --accent-fg: #17181a;
+    --muted: #9aa0a6;
+    --card: #202225;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Hiragino Kaku Gothic ProN', sans-serif;
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.75;
+}
+
+a {
+  color: var(--accent);
+}
+
+.wrap {
+  max-width: 760px;
+  margin-inline: auto;
+  padding: 0 20px;
+}
+
+header.hero {
+  background: var(--bg-alt);
+  border-bottom: 1px solid var(--border);
+  padding: 56px 0 40px;
+  text-align: center;
+}
+
+header.hero h1 {
+  font-size: 30px;
+  margin: 0 0 8px;
+}
+
+header.hero p.tagline {
+  color: var(--muted);
+  font-size: 16px;
+  margin: 0;
+}
+
+.disclaimer {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--muted);
+  margin: 20px auto 0;
+  max-width: 560px;
+}
+
+main {
+  padding: 40px 0 64px;
+}
+
+section {
+  margin: 48px 0;
+}
+
+h2 {
+  font-size: 20px;
+  margin: 0 0 16px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.card p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.screenshot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto 0;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+ol,
+ul {
+  padding-left: 22px;
+}
+
+li {
+  margin: 6px 0;
+}
+
+.cta {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--accent-fg);
+  border-radius: 8px;
+  padding: 10px 18px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cta:hover {
+  opacity: 0.9;
+}
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px 0 40px;
+  color: var(--muted);
+  font-size: 13px;
+  text-align: center;
+}
+
+footer a {
+  color: var(--muted);
+  text-decoration: underline;
+}
