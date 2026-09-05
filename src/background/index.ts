@@ -23,7 +23,7 @@ const contextMenuApi: ContextMenuApi = {
 
 const windowApi: WindowManagerApi = {
   windows: {
-    create: (props) => browser.windows.create({ ...props, type: 'popup' }),
+    create: (props) => browser.windows.create(props as never),
     update: (windowId, updateInfo) => browser.windows.update(windowId, updateInfo),
     getLastFocused: (getInfo) => browser.windows.getLastFocused(getInfo as never),
   },

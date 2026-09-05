@@ -41,7 +41,7 @@ describe('openOrFocusSearchWindow', () => {
     expect(api.windows.create).toHaveBeenCalledOnce();
     expect(api.windows.create).toHaveBeenCalledWith({
       url: 'moz-extension://fake-id/popup.html',
-      type: 'popup',
+      type: 'normal',
       width: SEARCH_WINDOW_WIDTH,
       height: 800,
     });

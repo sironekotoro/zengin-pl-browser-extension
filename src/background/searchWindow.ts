@@ -68,7 +68,9 @@ export async function openOrFocusSearchWindow(
 
   const win = await api.windows.create({
     url: api.runtime.getURL('popup.html'),
-    type: 'popup',
+    // 'popup' はフォーカスを失うと閉じてしまう環境が報告されたため、
+    // 確実に閉じない・タイトルバーでドラッグ移動できる通常ウィンドウにする。
+    type: 'normal',
     width: SEARCH_WINDOW_WIDTH,
     height,
   });

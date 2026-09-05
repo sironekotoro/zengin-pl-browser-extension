@@ -89,7 +89,7 @@ describe('handleMenuClick', () => {
     expect(windowApi.windows.create).toHaveBeenCalledOnce();
     expect(windowApi.windows.create).toHaveBeenCalledWith({
       url: 'moz-extension://fake-id/popup.html',
-      type: 'popup',
+      type: 'normal',
       width: expect.any(Number),
       height: expect.any(Number),
     });
