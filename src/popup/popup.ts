@@ -5,7 +5,6 @@ import { debounce } from '../shared/debounce';
 import { toHalfWidthKana } from '../shared/kana';
 import { isSeedSearchMessage } from '../shared/messages';
 import { takePendingSearchTerm } from '../shared/pendingSearch';
-import { normalizeSearchQuery } from '../shared/searchQuery';
 
 const SEARCH_DEBOUNCE_MS = 400;
 
@@ -65,7 +64,7 @@ async function runBankSearch(rawQuery: string): Promise<void> {
   setStatus(bankStatus, '検索中…');
 
   try {
-    const result = await searchBanks(normalizeSearchQuery(query), controller.signal);
+    const result = await searchBanks(query, controller.signal);
     if (controller.signal.aborted) return;
     if (result.banks.length === 0) {
       setStatus(bankStatus, '該当する銀行が見つかりませんでした。');
@@ -122,7 +121,7 @@ async function runBranchSearch(rawQuery: string): Promise<void> {
   setStatus(branchStatus, '検索中…');
 
   try {
-    const result = await searchBranches(bank.code, normalizeSearchQuery(query), controller.signal);
+    const result = await searchBranches(bank.code, query, controller.signal);
     if (controller.signal.aborted) return;
     if (result.branches.length === 0) {
       setStatus(branchStatus, '該当する支店が見つかりませんでした。');
