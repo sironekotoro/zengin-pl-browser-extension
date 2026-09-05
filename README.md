@@ -120,6 +120,8 @@ npm run icons -- --ref <sha>  # 特定コミット時点のfaviconを取得
 npm run icons:offline         # ネットワークを使わず、手元の src/icons/source.svg から再生成のみ行う
 ```
 
+zengin-pl側のfaviconは512のviewBoxに対し線の太さ(`stroke-width`)が30で、ツールバーの16px相当まで縮小すると線が細すぎて視認性が悪いという指摘があったため、`src/icons/source.svg`(同期元の正本)自体は変更せず、`scripts/sync-icon.mjs` がラスタライズする際にのみ線の太さを2倍にしています（`STROKE_WIDTH_MULTIPLIER`）。zengin-pl側のfaviconデザインが変わった場合もこの倍率は自動的に追随します。
+
 ## ローカルでの読み込み方法
 
 ### Chrome / Edge など Chromium系

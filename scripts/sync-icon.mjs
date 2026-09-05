@@ -11,6 +11,10 @@ import path from 'node:path';
 const ZENGIN_PL_REPO = 'sironekotoro/zengin-pl';
 const FAVICON_PATH = 'web/favicon.svg';
 const ICON_SIZES = [16, 48, 128];
+// zengin-pl側のfaviconは512のviewBoxに対しstroke-width 30で、
+// ツールバーの16px相当まで縮小すると線が細すぎて視認性が悪い(実機で報告あり)。
+// 同期元のSVG(source.svg)自体は正本のまま保ち、ラスタライズ時だけ線を太くする。
+const STROKE_WIDTH_MULTIPLIER = 2;
 
 const iconsDir = path.join(import.meta.dirname, '..', 'src', 'icons');
 const sourceSvgPath = path.join(iconsDir, 'source.svg');
@@ -41,8 +45,15 @@ async function fetchFaviconSvg(sha) {
   return res.text();
 }
 
+function boostStrokeWidth(svg, multiplier) {
+  return svg.replace(/stroke-width="([\d.]+)"/g, (_match, value) => {
+    const boosted = Number.parseFloat(value) * multiplier;
+    return `stroke-width="${boosted}"`;
+  });
+}
+
 async function renderPng(svg, size) {
-  const resvg = new Resvg(svg, {
+  const resvg = new Resvg(boostStrokeWidth(svg, STROKE_WIDTH_MULTIPLIER), {
     fitTo: { mode: 'width', value: size },
   });
   return resvg.render().asPng();
