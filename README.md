@@ -163,6 +163,20 @@ npm run store-screenshot -- 640 400   # 640x400 を生成
 
 出力は `store-assets/` 配下に保存されます。素材画像を撮り直した場合は、`scripts/generate-store-screenshot.mjs` 内の `SOURCE_IMAGE_WIDTH` / `SOURCE_IMAGE_HEIGHT` の実寸も合わせて更新してください。
 
+## ストア提出用パッケージの作成
+
+```bash
+npm run build
+
+cd dist/chrome  && zip -r ../../store-assets/chrome-extension.zip  . -x "*.map" && cd ../..
+cd dist/firefox && zip -r ../../store-assets/firefox-extension.zip . -x "*.map" && cd ../..
+
+# Firefox Add-ons はビルド済みコードの審査にソースコード一式の提出が必要になる場合がある
+git archive --format=zip -o store-assets/source-code.zip HEAD
+```
+
+ソースマップ(`*.map`)は配布に不要なため除外しています。`store-assets/*.zip` はコミット時点のビルド成果物のため`.gitignore`対象とし、リポジトリにはコミットしていません（掲載文言のドラフトは `store-assets/listing-ja.md` に、スクリーンショットは `store-assets/*.png` としてコミットしています）。
+
 ## CI
 
 GitHub Actions（`.github/workflows/ci.yml`）で、push/PRごとに以下を実行します。
