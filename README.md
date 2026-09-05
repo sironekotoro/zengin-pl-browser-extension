@@ -39,8 +39,9 @@
 ```
 src/
   api/         zengin-pl-api の OpenAPI 契約に基づく型とクライアント
-  background/  コンテキストメニュー登録、検索ウィンドウの作成/使い回し（サービスワーカー/イベントページ）
+  background/  コンテキストメニュー登録、検索ウィンドウの作成/使い回し、初回インストール案内（サービスワーカー/イベントページ）
   popup/       検索画面（HTML/CSS/TS）
+  onboarding/  初回インストール時に開く案内ページ（HTML）
   shared/      デバウンス、半角カナ変換、検索語の一時引き継ぎストレージ、メッセージ型
   icons/       生成されたプレースホルダーアイコン
 manifest/      Chrome用・Firefox用の manifest.json
@@ -60,6 +61,12 @@ scripts/       ビルドスクリプト・アイコン生成スクリプト
 - ウィンドウが閉じられたら `windows.onRemoved` で追跡状態をリセットします。
 
 この設計はChrome/Firefoxのどちらでも同じコードパスで動作します。
+
+## 初回インストール時の案内ページ
+
+拡張機能がツールバーへ自らピン留めするAPIは(Chrome/Firefoxいずれにも)存在しません。Firefoxは既定でツールバーに表示されますが、Chrome/Edgeでは既定で「拡張機能」メニュー（パズルピース型アイコン）に格納され、ユーザーが手動でピン留めする必要があります。
+
+これに対応するため、初回インストール時（`runtime.onInstalled` の `reason === 'install'`）にのみ、ピン留め手順を説明する案内ページ（`src/onboarding/onboarding.html`）を新しいタブで開きます（`src/background/onboarding.ts`）。アップデート時やブラウザ更新時には表示しません。`tabs.create()` で自拡張機能のページを開くだけなので、追加の権限は必要ありません。
 
 ## APIとの通信
 

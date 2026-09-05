@@ -5,6 +5,7 @@ import {
   type ContextMenuApi,
   type MenuClickInfo,
 } from './contextMenu';
+import { maybeShowOnboarding, type OnboardingApi } from './onboarding';
 import {
   handleSearchWindowRemoved,
   openOrFocusSearchWindow,
@@ -33,10 +34,16 @@ const windowApi: WindowManagerApi = {
   },
 };
 
+const onboardingApi: OnboardingApi = {
+  tabs: { create: (props) => browser.tabs.create(props) },
+  runtime: { getURL: (path) => browser.runtime.getURL(path) },
+};
+
 const tracker: WindowTracker = { windowId: undefined };
 
-browser.runtime.onInstalled.addListener(() => {
+browser.runtime.onInstalled.addListener((details) => {
   void registerContextMenu(contextMenuApi);
+  void maybeShowOnboarding(onboardingApi, details.reason);
 });
 
 browser.contextMenus.onClicked.addListener((info) => {

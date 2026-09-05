@@ -29,6 +29,7 @@ await build({
 
 await cp(path.join(root, 'src/popup/popup.html'), path.join(outdir, 'popup.html'));
 await cp(path.join(root, 'src/popup/popup.css'), path.join(outdir, 'popup.css'));
+await cp(path.join(root, 'src/onboarding/onboarding.html'), path.join(outdir, 'onboarding.html'));
 await cp(path.join(root, 'src/icons'), path.join(outdir, 'icons'), { recursive: true });
 await cp(path.join(root, `manifest/manifest.${target}.json`), path.join(outdir, 'manifest.json'));
 
