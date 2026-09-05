@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>全銀コード検索 - 銀行・支店コード検索用ブラウザ拡張</title>
+    <meta
+      name="description"
+      content="銀行名・銀行コード・支店名・支店コードをブラウザから素早く検索できる、Chrome/Firefox向けの非公式ブラウザ拡張です。"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div class="wrap">
+        <h1>全銀コード検索</h1>
+        <p class="tagline">銀行名・銀行コード・支店名・支店コードを、ブラウザからサクッと検索</p>
+        <p class="disclaimer">
+          本拡張機能は全国銀行資金決済ネットワーク（全銀ネット）等の公式サービスではありません。非公式の個人プロジェクトであり、データの正確性・最新性を保証するものではありません。
+        </p>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section>
+        <h2>できること</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>検索画面</h3>
+            <p>
+              銀行名または4桁の銀行コードで検索 → 銀行を選択 →
+              支店名または3桁の支店コードでその銀行内の支店を検索。銀行名・コード・支店名・コード・半角カナをそれぞれコピーできます。
+            </p>
+          </div>
+          <div class="card">
+            <h3>右クリック検索</h3>
+            <p>
+              Webページ上で文字列を選択して右クリックすると「銀行・支店コードを検索」が表示され、選択した文字列を検索欄に反映した状態で検索画面が開きます。検索を確定するまで、選択文字列がAPIへ送信されることはありません。
+            </p>
+          </div>
+        </div>
+
+        <div class="mock" aria-hidden="true">
+          <div class="mock-title">全銀コード検索(イメージ)</div>
+          <div class="mock-row">
+            <input type="text" value="みずほ" readonly />
+            <button type="button">検索</button>
+          </div>
+          <div class="mock-list">
+            <div>みずほ(0001)</div>
+            <div>みずほ信託(0289)</div>
+          </div>
+        </div>
+        <p class="mock-caption">※実際の画面イメージ(スクリーンショットではありません)</p>
+      </section>
+
+      <section>
+        <h2>使い方</h2>
+        <ol>
+          <li>ツールバーのアイコンをクリックして検索画面を開く</li>
+          <li>銀行名または銀行コードを入力して検索し、一覧から銀行を選択する</li>
+          <li>表示された支店検索欄に、支店名または支店コードを入力して検索する</li>
+          <li>
+            一覧から支店を選択すると、銀行名・銀行コード・支店名・支店コード・半角カナが表示されるので、それぞれ「コピー」ボタンでコピーする
+          </li>
+        </ol>
+        <p>
+          検索画面は明示的に閉じるまで開いたままなので、コピーした内容を他のアプリへ貼り付ける操作を挟んでも問題ありません。
+        </p>
+      </section>
+
+      <section>
+        <h2>入手方法</h2>
+        <p>
+          現在、Chromeウェブストア・Firefox Add-onsでの公開を準備中です。今すぐ試したい方は、GitHubリポジトリのソースコードから手元でビルドして読み込むことができます。
+        </p>
+        <p>
+          <a
+            class="cta"
+            href="https://github.com/sironekotoro/zengin-pl-browser-extension#ローカルでの読み込み方法"
+            >GitHubでソースコードを見る →</a
+          >
+        </p>
+      </section>
+
+      <section>
+        <h2>データの取り扱い</h2>
+        <p>
+          検索語は固定のAPIエンドポイント(<code>https://api.zengin.sironekotoro.com</code
+          >)にのみ送信されます。口座番号・名義等の個人情報の入力・保存機能はなく、広告・アクセス解析・トラッキングの類も一切含まれていません。詳しくは
+          <a href="privacy.html">プライバシーポリシー</a> をご覧ください。
+        </p>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        <a href="https://github.com/sironekotoro/zengin-pl-browser-extension">GitHubリポジトリ</a>
+        ·
+        <a href="https://github.com/sironekotoro/zengin-pl-browser-extension/issues"
+          >不具合報告・お問い合わせ</a
+        >
+        · <a href="privacy.html">プライバシーポリシー</a> · MIT License
+      </p>
+    </footer>
+  </body>
+</html>
