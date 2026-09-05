@@ -9,7 +9,6 @@ import {
   type WindowManagerApi,
   type WindowTracker,
 } from './searchWindow';
-import { SEED_SEARCH_MESSAGE } from '../shared/messages';
 
 function createFakeApi(overrides: Partial<WindowManagerApi> = {}): WindowManagerApi {
   return {
@@ -21,7 +20,6 @@ function createFakeApi(overrides: Partial<WindowManagerApi> = {}): WindowManager
     },
     runtime: {
       getURL: vi.fn((path: string) => `moz-extension://fake-id/${path}`),
-      sendMessage: vi.fn().mockResolvedValue(undefined),
       ...overrides.runtime,
     },
   };
@@ -87,28 +85,6 @@ describe('openOrFocusSearchWindow', () => {
     expect(api.windows.update).toHaveBeenCalledOnce();
     expect(api.windows.update).toHaveBeenCalledWith(7, { focused: true });
     expect(api.windows.create).not.toHaveBeenCalled();
-  });
-
-  it('既存ウィンドウ再利用時、検索語があればメッセージで伝える', async () => {
-    tracker.windowId = 7;
-    const api = createFakeApi();
-
-    await openOrFocusSearchWindow(api, tracker, 'みずほ銀行');
-
-    expect(api.runtime.sendMessage).toHaveBeenCalledOnce();
-    expect(api.runtime.sendMessage).toHaveBeenCalledWith({
-      type: SEED_SEARCH_MESSAGE,
-      term: 'みずほ銀行',
-    });
-  });
-
-  it('検索語がなければメッセージを送らない', async () => {
-    tracker.windowId = 7;
-    const api = createFakeApi();
-
-    await openOrFocusSearchWindow(api, tracker);
-
-    expect(api.runtime.sendMessage).not.toHaveBeenCalled();
   });
 
   it('追跡していたウィンドウが既に閉じられていた場合は新規作成にフォールバックする', async () => {

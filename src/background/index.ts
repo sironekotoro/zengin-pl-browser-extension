@@ -1,10 +1,4 @@
 import browser from 'webextension-polyfill';
-import {
-  handleMenuClick,
-  registerContextMenu,
-  type ContextMenuApi,
-  type MenuClickInfo,
-} from './contextMenu';
 import { maybeShowOnboarding, type OnboardingApi } from './onboarding';
 import {
   handleSearchWindowRemoved,
@@ -15,13 +9,6 @@ import {
 
 // webextension-polyfill の型はより厳密(リテラル型)なため、
 // このファイル固有の橋渡しとして最小限のインターフェースへ適合させる。
-const contextMenuApi: ContextMenuApi = {
-  contextMenus: {
-    removeAll: () => browser.contextMenus.removeAll(),
-    create: (props) => browser.contextMenus.create({ ...props, contexts: ['selection'] }),
-  },
-};
-
 const windowApi: WindowManagerApi = {
   windows: {
     create: (props) => browser.windows.create(props as never),
@@ -30,7 +17,6 @@ const windowApi: WindowManagerApi = {
   },
   runtime: {
     getURL: (path) => browser.runtime.getURL(path),
-    sendMessage: (message) => browser.runtime.sendMessage(message),
   },
 };
 
@@ -41,27 +27,12 @@ const onboardingApi: OnboardingApi = {
 
 const tracker: WindowTracker = { windowId: undefined };
 
-// Chrome(MV3)のservice workerは頻繁に休止・再起動され、その際にトップレベルの
-// コードが毎回最初から実行される。onInstalled(インストール/更新/ブラウザ更新時
-// のみ発火)だけに頼ると、開発中の手動リロード等でメニューが登録されないまま
-// 動かなくなることがあるため、service worker起動のたびに必ず(冪等に)登録し直す。
-void registerContextMenu(contextMenuApi);
-
 browser.runtime.onInstalled.addListener((details) => {
-  void registerContextMenu(contextMenuApi);
   void maybeShowOnboarding(onboardingApi, details.reason);
 });
 
-browser.runtime.onStartup.addListener(() => {
-  void registerContextMenu(contextMenuApi);
-});
-
-browser.contextMenus.onClicked.addListener((info) => {
-  void handleMenuClick(windowApi, tracker, browser.storage.local, info as MenuClickInfo);
-});
-
 // default_popup を設定していないため、アイコンクリックでこのハンドラが発火する。
-// コンテキストメニューと同じ「使い回し可能な検索ウィンドウ」を開く。
+// 検索画面のウィンドウを開く(既に開いていればフォーカスするだけ)。
 browser.action.onClicked.addListener(() => {
   void openOrFocusSearchWindow(windowApi, tracker);
 });

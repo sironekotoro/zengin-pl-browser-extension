@@ -3,8 +3,6 @@ import { ZenginApiError, getBranch, searchBanks, searchBranches } from '../api/c
 import type { Bank, Branch, BankSummary, BranchSummary } from '../api/types';
 import { debounce } from '../shared/debounce';
 import { toHalfWidthKana } from '../shared/kana';
-import { isSeedSearchMessage } from '../shared/messages';
-import { takePendingSearchTerm } from '../shared/pendingSearch';
 import { computeExpandedWindowHeight } from '../shared/windowFit';
 
 const SEARCH_DEBOUNCE_MS = 400;
@@ -284,30 +282,4 @@ branchQueryInput.addEventListener('input', () => {
   debouncedBranchSearch(branchQueryInput.value);
 });
 
-function applySeedTerm(term: string): void {
-  // 検索欄に反映するだけで、ここではAPIを呼び出さない。
-  // 実際の検索はユーザーが検索を実行(Enter/検索ボタン)して初めて行われる。
-  debouncedBankSearch.cancel();
-  bankQueryInput.value = term;
-  bankQueryInput.focus();
-}
-
-async function init(): Promise<void> {
-  // 右クリック検索で引き継がれた文字列があれば検索欄に反映する(新規ウィンドウ作成時)。
-  const pending = await takePendingSearchTerm(browser.storage.local);
-  if (pending) {
-    applySeedTerm(pending);
-  } else {
-    bankQueryInput.focus();
-  }
-}
-
-// 検索ウィンドウを再利用(フォーカスするだけ)した場合、popup.htmlは再読み込みされず
-// init()が再実行されないため、バックグラウンドからのメッセージで新しい検索語を受け取る。
-browser.runtime.onMessage.addListener((message: unknown) => {
-  if (isSeedSearchMessage(message)) {
-    applySeedTerm(message.term);
-  }
-});
-
-void init();
+bankQueryInput.focus();

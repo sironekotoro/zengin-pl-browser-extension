@@ -29,18 +29,6 @@
           <code>https://api.zengin.sironekotoro.com</code>
           に送信します。この通信先は拡張機能のホスト権限(<code>host_permissions</code>)でもこの1オリジンに限定されています。
         </p>
-        <p>
-          Webページ上で文字列を選択して行う「右クリック検索」についても、選択した文字列は利用者が検索画面で検索を実行(検索ボタン/Enterキー)するまでAPIへ送信されることはありません。
-        </p>
-      </section>
-
-      <section>
-        <h2>ブラウザ内に一時保存する情報</h2>
-        <p>
-          右クリック検索で選択した文字列は、検索画面が開いてその内容を読み取るまでの間だけ、ブラウザの拡張機能用ローカルストレージ(<code
-            >storage.local</code
-          >)に一時的に保存されます。読み取り後は自動的に削除され、外部へ送信されることはありません。
-        </p>
       </section>
 
       <section>
@@ -55,13 +43,6 @@
       <section>
         <h2>権限について</h2>
         <ul>
-          <li>
-            <code>contextMenus</code>: Webページ上で文字列が選択されている時だけ、右クリックメニューに検索項目を表示するために使用します。
-          </li>
-          <li>
-            <code>storage</code
-            >: 右クリック検索で選択した文字列を、検索画面が開くまでの間だけ一時的に引き継ぐために使用します。
-          </li>
           <li>
             <code>host_permissions</code>(<code>https://api.zengin.sironekotoro.com/*</code
             >): 検索APIとの通信のみに使用します。
@@ -95,7 +76,7 @@
       </section>
 
       <section>
-        <p><em>最終更新日: 2026年9月</em></p>
+        <p><em>最終更新日: 2026年9月6日</em></p>
       </section>
     </main>
 

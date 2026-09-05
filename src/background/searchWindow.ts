@@ -1,5 +1,3 @@
-import { SEED_SEARCH_MESSAGE, type SeedSearchMessage } from '../shared/messages';
-
 export const SEARCH_WINDOW_WIDTH = 440;
 export const DEFAULT_SEARCH_WINDOW_HEIGHT = 720;
 export const MAX_SEARCH_WINDOW_HEIGHT = 900;
@@ -23,7 +21,6 @@ export interface WindowManagerApi {
   };
   runtime: {
     getURL(path: string): string;
-    sendMessage(message: SeedSearchMessage): Promise<unknown>;
   };
 }
 
@@ -35,22 +32,14 @@ function clampHeight(height: number | undefined): number {
 /**
  * 検索画面のウィンドウを開く。
  * 既に開いている場合は新しく作らずフォーカスするだけにする(重複ウィンドウの増殖を防ぐ)。
- * 右クリック検索から呼ばれ、かつ既存ウィンドウを再利用した場合は、
- * popup.html側がストレージを再読込しない(初期化処理が再実行されない)ため、
- * runtime.sendMessage で新しい検索語を伝える。
  */
 export async function openOrFocusSearchWindow(
   api: WindowManagerApi,
   tracker: WindowTracker,
-  seedTerm?: string,
 ): Promise<void> {
   if (tracker.windowId !== undefined) {
     try {
       await api.windows.update(tracker.windowId, { focused: true });
-      if (seedTerm) {
-        const message: SeedSearchMessage = { type: SEED_SEARCH_MESSAGE, term: seedTerm };
-        await api.runtime.sendMessage(message).catch(() => undefined);
-      }
       return;
     } catch {
       // ウィンドウが既に閉じられている等。新規作成にフォールバックする。
