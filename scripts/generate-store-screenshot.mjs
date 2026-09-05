@@ -44,16 +44,37 @@ function escapeXml(text) {
 }
 
 // 日本語(全角相当)を前提に、1文字 ≒ fontSize幅として概算で折り返す。
+// 「・」「、」「→」「/」「。」等の区切り文字の直後でのみ改行し、
+// 「支店コード」「検索」のような単語の途中では改行しないようにする。
+const BREAK_CHARS = '・、,。/→\\s';
+const TOKEN_PATTERN = new RegExp(`[^${BREAK_CHARS}]*[${BREAK_CHARS}]?`, 'g');
+
 function wrapText(text, maxWidth, fontSize) {
   const maxChars = Math.max(1, Math.floor(maxWidth / fontSize));
+  const tokens = (text.match(TOKEN_PATTERN) ?? []).filter(Boolean);
   const lines = [];
   let current = '';
-  for (const ch of text) {
-    if (current.length >= maxChars) {
+
+  for (const token of tokens) {
+    if (current && (current.length + token.length) > maxChars) {
       lines.push(current);
       current = '';
     }
-    current += ch;
+    if (token.length > maxChars) {
+      // 区切りのない1トークンだけでmaxCharsを超える場合の保険(文字単位で分割)。
+      let remaining = token;
+      while (remaining.length > maxChars) {
+        if (current) {
+          lines.push(current);
+          current = '';
+        }
+        lines.push(remaining.slice(0, maxChars));
+        remaining = remaining.slice(maxChars);
+      }
+      current = remaining;
+    } else {
+      current += token;
+    }
   }
   if (current) lines.push(current);
   return lines;
