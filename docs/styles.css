@@ -111,67 +111,13 @@ h2 {
   color: var(--muted);
 }
 
-.mock {
-  background: var(--card);
+.screenshot {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto 0;
+  border-radius: 10px;
   border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  max-width: 340px;
-  margin: 24px auto;
-  font-size: 12px;
-}
-
-.mock .mock-title {
-  font-weight: 600;
-  font-size: 13px;
-  margin-bottom: 10px;
-}
-
-.mock .mock-row {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 8px;
-}
-
-.mock input {
-  flex: 1;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 5px 7px;
-  background: var(--bg);
-  color: var(--fg);
-  font-size: 12px;
-}
-
-.mock button {
-  border: 1px solid var(--accent);
-  background: var(--accent);
-  color: var(--accent-fg);
-  border-radius: 6px;
-  padding: 5px 10px;
-  font-size: 12px;
-}
-
-.mock .mock-list {
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.mock .mock-list div {
-  padding: 6px 8px;
-  border-bottom: 1px solid var(--border);
-}
-
-.mock .mock-list div:last-child {
-  border-bottom: none;
-}
-
-.mock .mock-caption {
-  text-align: center;
-  color: var(--muted);
-  margin-top: 8px;
-  font-size: 11px;
 }
 
 ol,
