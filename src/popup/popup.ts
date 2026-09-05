@@ -42,6 +42,15 @@ function clearChildren(el: HTMLElement): void {
   el.replaceChildren();
 }
 
+/** 一覧内のボタンのうち、選択されたものだけを見た目・aria-pressedで区別する。 */
+function markSelectedResult(container: HTMLElement, selected: HTMLButtonElement): void {
+  for (const button of container.querySelectorAll<HTMLButtonElement>('.result-item')) {
+    const isSelected = button === selected;
+    button.classList.toggle('is-selected', isSelected);
+    button.setAttribute('aria-pressed', String(isSelected));
+  }
+}
+
 function describeError(err: unknown): string {
   if (err instanceof ZenginApiError) {
     if (err.status === 0) return '通信エラーが発生しました。ネットワーク接続を確認してください。';
@@ -85,8 +94,12 @@ function renderBankResult(bank: Bank): HTMLLIElement {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'result-item';
+  button.setAttribute('aria-pressed', 'false');
   button.textContent = `${bank.name}(${bank.code})`;
-  button.addEventListener('click', () => selectBank(bank));
+  button.addEventListener('click', () => {
+    markSelectedResult(bankResults, button);
+    selectBank(bank);
+  });
   li.appendChild(button);
   return li;
 }
@@ -142,8 +155,12 @@ function renderBranchResult(branch: BranchSummary): HTMLLIElement {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = 'result-item';
+  button.setAttribute('aria-pressed', 'false');
   button.textContent = `${branch.name}(${branch.code})`;
-  button.addEventListener('click', () => void selectBranch(branch));
+  button.addEventListener('click', () => {
+    markSelectedResult(branchResults, button);
+    void selectBranch(branch);
+  });
   li.appendChild(button);
   return li;
 }

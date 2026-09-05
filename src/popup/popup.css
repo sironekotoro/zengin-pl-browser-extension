@@ -149,6 +149,12 @@ button:disabled {
   background: var(--hover);
 }
 
+.result-item.is-selected {
+  background: var(--hover);
+  font-weight: 600;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
 .selected-bank {
   font-size: 13px;
   font-weight: 600;
