@@ -152,6 +152,17 @@ zengin-pl側のfaviconは512のviewBoxに対し線の太さ(`stroke-width`)が30
 8. 検索画面を開いたまま他のウィンドウ/タブをクリックしても検索画面が閉じないことを確認
 9. 小さめのウィンドウサイズで検索を行い、支店を選択して詳細情報が表示された際にスクロールなしで全項目が見えるようウィンドウが自動的に縦へ拡張されることを確認
 
+## ストア申請用スクリーンショット
+
+拡張機能のウィンドウは縦長（440px幅）のため、そのままではChromeウェブストアが要求する横長サイズ（1280×800 / 640×400）に収まりません。実機で撮影した縦長のスクリーンショット（`docs/images/search-screenshot.png`）を素材として、規定サイズの横長画像へ合成するスクリプトを用意しています。
+
+```bash
+npm run store-screenshot              # 1280x800 を store-assets/ に生成
+npm run store-screenshot -- 640 400   # 640x400 を生成
+```
+
+出力は `store-assets/` 配下に保存されます。素材画像を撮り直した場合は、`scripts/generate-store-screenshot.mjs` 内の `SOURCE_IMAGE_WIDTH` / `SOURCE_IMAGE_HEIGHT` の実寸も合わせて更新してください。
+
 ## CI
 
 GitHub Actions（`.github/workflows/ci.yml`）で、push/PRごとに以下を実行します。

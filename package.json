@@ -13,7 +13,8 @@
     "build:firefox": "node scripts/build.mjs firefox",
     "build": "npm run build:chrome && npm run build:firefox",
     "icons": "node scripts/sync-icon.mjs",
-    "icons:offline": "node scripts/sync-icon.mjs --offline"
+    "icons:offline": "node scripts/sync-icon.mjs --offline",
+    "store-screenshot": "node scripts/generate-store-screenshot.mjs"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
