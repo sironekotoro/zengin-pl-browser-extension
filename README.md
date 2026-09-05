@@ -152,16 +152,22 @@ zengin-pl側のfaviconは512のviewBoxに対し線の太さ(`stroke-width`)が30
 8. 検索画面を開いたまま他のウィンドウ/タブをクリックしても検索画面が閉じないことを確認
 9. 小さめのウィンドウサイズで検索を行い、支店を選択して詳細情報が表示された際にスクロールなしで全項目が見えるようウィンドウが自動的に縦へ拡張されることを確認
 
-## ストア申請用スクリーンショット
+## ストア申請用スクリーンショット・プロモーション画像
 
-拡張機能のウィンドウは縦長（440px幅）のため、そのままではChromeウェブストアが要求する横長サイズ（1280×800 / 640×400）に収まりません。実機で撮影した縦長のスクリーンショット（`docs/images/search-screenshot.png`）を素材として、規定サイズの横長画像へ合成するスクリプトを用意しています。
+拡張機能のウィンドウは縦長（440px幅）のため、そのままではChromeウェブストアが要求する横長サイズに収まりません。実機で撮影した縦長のスクリーンショット（`docs/images/search-screenshot.png`）とアイコン（`src/icons/icon128.png`）を素材として、[Chromeウェブストアの規定サイズ](https://developer.chrome.com/docs/webstore/images)へ合成するスクリプトを用意しています。
 
 ```bash
-npm run store-screenshot              # 1280x800 を store-assets/ に生成
-npm run store-screenshot -- 640 400   # 640x400 を生成
+npm run store-screenshot              # 1280x800 (スクリーンショット、必須)
+npm run store-screenshot -- 640 400   # 640x400 (スクリーンショット、代替サイズ)
+npm run store-screenshot -- 440 280   # プロモーションタイル(小)
+npm run store-screenshot -- 1400 560  # マーキープロモーションタイル
 ```
 
-出力は `store-assets/` 配下に保存されます。素材画像を撮り直した場合は、`scripts/generate-store-screenshot.mjs` 内の `SOURCE_IMAGE_WIDTH` / `SOURCE_IMAGE_HEIGHT` の実寸も合わせて更新してください。
+高さ350px未満(プロモーションタイル(小)相当)の場合は製品スクリーンショットを省略し、アイコン・タイトル・タグラインのみのシンプルな構成にしています。
+
+Chromeウェブストアはこれらの画像について「JPEGまたは24bit PNG(アルファなし)」を要求しているため、[`sharp`](https://sharp.pixelplumbing.com/)で不透明背景に合成した上でJPEGとして書き出しています（`resvg`の出力はアルファチャンネル付きのPNGのため、そのままでは要件を満たしません）。
+
+出力は `store-assets/` 配下に `chrome-<幅>x<高さ>.jpg` として保存されます。素材画像を撮り直した場合は、`scripts/generate-store-screenshot.mjs` 内の `SOURCE_IMAGE_WIDTH` / `SOURCE_IMAGE_HEIGHT` の実寸も合わせて更新してください。
 
 ## ストア提出用パッケージの作成
 
