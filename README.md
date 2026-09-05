@@ -46,7 +46,7 @@ src/
   popup/       検索画面（HTML/CSS/TS）
   onboarding/  初回インストール時に開く案内ページ（HTML）
   shared/      デバウンス、半角カナ変換、検索語の一時引き継ぎストレージ、メッセージ型
-  icons/       生成されたプレースホルダーアイコン
+  icons/       zengin-pl(Webフロントエンド)のfaviconと揃えたアイコン(source.svg, source.ref)
 manifest/      Chrome用・Firefox用の manifest.json
 scripts/       ビルドスクリプト・アイコン生成スクリプト
 ```
@@ -111,7 +111,17 @@ npm run build:firefox  # dist/firefox に出力
 npm run build          # 両方まとめて実行
 ```
 
-アイコン（`src/icons/`）は依存ライブラリなしのスクリプトで生成したプレースホルダーです。差し替える場合は `src/icons/icon{16,48,128}.png` を置き換えてください（再生成する場合は `npm run icons`）。
+### アイコン
+
+拡張機能のアイコンは、[`zengin-pl`](https://github.com/sironekotoro/zengin-pl)（同じ検索データを使うWebフロントエンド）の favicon（`web/favicon.svg`）と揃えています。SVGをそのまま [`@resvg/resvg-js`](https://github.com/yisibl/resvg-js) でラスタライズして `icon16/48/128.png` を生成しており、手描きのプレースホルダーではありません。
+
+取得元のコミットは `src/icons/source.ref` にピン留めしており（`src/icons/source.svg` はその時点のコピー）、`zengin-pl` 側でfaviconが更新された場合は以下で追随できます。
+
+```bash
+npm run icons                 # zengin-pl の master 最新版を取得し、アイコンとピン留めを更新
+npm run icons -- --ref <sha>  # 特定コミット時点のfaviconを取得
+npm run icons:offline         # ネットワークを使わず、手元の src/icons/source.svg から再生成のみ行う
+```
 
 ## ローカルでの読み込み方法
 
