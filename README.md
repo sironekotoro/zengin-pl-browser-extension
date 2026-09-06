@@ -171,6 +171,18 @@ npm run store-screenshot -- 1400 560  # マーキープロモーションタイ�
 
 Chromeウェブストアはこれらの画像について「JPEGまたは24bit PNG(アルファなし)」を要求しているため、[`sharp`](https://sharp.pixelplumbing.com/)で不透明背景に合成した上でJPEGとして書き出しています（`resvg`の出力はアルファチャンネル付きのPNGのため、そのままでは要件を満たしません）。
 
+### 実UIをそのまま見せるスクリーンショット
+
+上記の合成画像は、タイトル・タグラインを大きく見せる分、実際の画面(検索画面)が小さくなってしまいます。実際の使用感をより大きく伝えるため、`docs/images/search-screenshot.png` を実サイズ(1136幅)のまま640x400相当(1136x710)で3箇所切り出し、640x400へリサイズしたものを `store-assets/` に用意しています。
+
+- `chrome-ui-640x400-1-bank-search.png` (元画像のtop=0): 銀行検索
+- `chrome-ui-640x400-2-branch-search.png` (top=700): 支店検索
+- `chrome-ui-640x400-3-copy.png` (top=1350): コピー機能(「選択した支店の情報」)
+
+いずれも `sharp` で不透明背景に合成した24bit PNG(アルファなし)です。元画像を撮り直した場合はtopの値も調整してください。
+
+`store-assets/amo-screenshot.png` はFirefox Add-ons(AMO)向けで、AMOのスクリーンショット上限(2400x1800)に収まるよう `docs/images/search-screenshot.png` を高さ1800pxへ縮小したものです(AMOはChromeほどサイズ要件が厳しくないため、切り出さず全体をそのまま縮小しています)。
+
 出力は `store-assets/` 配下に `chrome-<幅>x<高さ>.jpg` として保存されます。素材画像を撮り直した場合は、`scripts/generate-store-screenshot.mjs` 内の `SOURCE_IMAGE_WIDTH` / `SOURCE_IMAGE_HEIGHT` の実寸も合わせて更新してください。
 
 ## ストア提出用パッケージの作成
