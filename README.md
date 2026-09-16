@@ -114,6 +114,19 @@ npm run build:firefox  # dist/firefox に出力
 npm run build          # 両方まとめて実行
 ```
 
+### 拡張機能のバージョン
+
+拡張機能のバージョン情報はルートの `release-version.json` を正本とし、Chrome / Firefox用のsource manifestには重複して保持しません。ビルド時に両方の `manifest.json`へ次の形式で反映します。
+
+```text
+表示(version_name): major.minor.YY.MMDD
+内部(version):      major.minor.YYMM.DDrr
+```
+
+同日最初のreleaseは `revision: 0` とし、表示上のrevision suffixは付けません。たとえば2026-09-16の初回は`version_name: 0.1.26.0916`、`version: 0.1.2609.1600`です。同日に2回目をreleaseする場合は`revision: 1`へ更新し、`version_name: 0.1.26.0916-r1`、`version: 0.1.2609.1601`とします。revisionは00〜99の範囲です。
+
+buildは日付、revision、major/minor、Chromeのcomponent上限と先頭ゼロを検証し、不正なmetadataでは生成前に停止します。`package.json`の`version`はnpm package用SemVerであり、拡張機能versionの正本ではありません。
+
 ### アイコン
 
 拡張機能のアイコンは、[`zengin-pl`](https://github.com/sironekotoro/zengin-pl)（同じ検索データを使うWebフロントエンド）の favicon（`web/favicon.svg`）と揃えています。SVGをそのまま [`@resvg/resvg-js`](https://github.com/yisibl/resvg-js) でラスタライズして `icon16/48/128.png` を生成しており、手描きのプレースホルダーではありません。
