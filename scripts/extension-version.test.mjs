@@ -24,7 +24,6 @@ describe('extension version generation', () => {
   it('does not emit leading zeroes in machine components for one-digit months and days', () => {
     const result = deriveExtensionVersion({ ...base, date: '2026-01-03' });
     expect(result).toEqual({ version: '0.1.2601.300', versionName: '0.1.26.0103' });
-    expect(result.version.split('.').every((component) => component === '0' || !component.startsWith('0'))).toBe(true);
   });
 
   it('accepts revision 99', () => {

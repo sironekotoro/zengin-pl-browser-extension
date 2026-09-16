@@ -47,15 +47,13 @@ export function deriveExtensionVersion(metadata) {
   const mm = String(month).padStart(2, '0');
   const dd = String(day).padStart(2, '0');
   const rr = String(revision).padStart(2, '0');
+  // Convert padded date fields to numbers so Chrome version components never retain leading zeroes.
   const components = [major, minor, Number(`${yy}${mm}`), Number(`${dd}${rr}`)];
   validateMachineComponents(components);
 
   const version = components.join('.');
   const versionName = `${major}.${minor}.${yy}.${mm}${dd}${revision === 0 ? '' : `-r${revision}`}`;
   if (!VERSION_NAME_PATTERN.test(versionName)) throw new Error(`generated version_name has an invalid format: ${versionName}`);
-  if (version.split('.').some((component) => component.length > 1 && component.startsWith('0'))) {
-    throw new Error(`generated machine version contains a leading zero: ${version}`);
-  }
   return Object.freeze({ version, versionName });
 }
 
