@@ -60,7 +60,7 @@ function keyboardEvent(
   } as KeyboardEvent;
 }
 
-describe.each(['bank', 'branch'])('%s result keyboard navigation', () => {
+describe('result keyboard navigation', () => {
   it('moves from the input to the first result with ArrowDown', () => {
     const harness = createHarness();
     harness.focus(harness.input);
