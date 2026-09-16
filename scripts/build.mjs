@@ -1,6 +1,7 @@
 import { build } from 'esbuild';
-import { cp, mkdir, rm } from 'node:fs/promises';
+import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { applyExtensionVersion, loadExtensionVersion } from './extension-version.mjs';
 
 const target = process.argv[2];
 if (target !== 'chrome' && target !== 'firefox') {
@@ -10,6 +11,10 @@ if (target !== 'chrome' && target !== 'firefox') {
 
 const root = path.join(import.meta.dirname, '..');
 const outdir = path.join(root, 'dist', target);
+const extensionVersion = await loadExtensionVersion(path.join(root, 'release-version.json'));
+const manifestTemplatePath = path.join(root, `manifest/manifest.${target}.json`);
+const manifestTemplate = JSON.parse(await readFile(manifestTemplatePath, 'utf8'));
+const manifest = applyExtensionVersion(manifestTemplate, extensionVersion);
 
 await rm(outdir, { recursive: true, force: true });
 await mkdir(outdir, { recursive: true });
@@ -41,6 +46,6 @@ for (const size of [16, 48, 128]) {
   const fileName = `icon${size}.png`;
   await cp(path.join(root, 'src/icons', fileName), path.join(outdir, 'icons', fileName));
 }
-await cp(path.join(root, `manifest/manifest.${target}.json`), path.join(outdir, 'manifest.json'));
+await writeFile(path.join(outdir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
 
-console.log(`Built ${target} extension into dist/${target}`);
+console.log(`Built ${target} extension ${extensionVersion.version} (${extensionVersion.versionName}) into dist/${target}`);

@@ -1,7 +1,6 @@
 {
   "manifest_version": 3,
   "name": "全銀コード検索",
-  "version": "0.1.0",
   "description": "銀行名・銀行コード・支店名・支店コードを検索し、コピーできる拡張機能です。",
   "action": {
     "default_title": "全銀コード検索",
