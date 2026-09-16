@@ -4,6 +4,7 @@ import type { Bank, Branch, BankSummary, BranchSummary } from '../api/types';
 import { debounce } from '../shared/debounce';
 import { toHalfWidthKana } from '../shared/kana';
 import { computeExpandedWindowHeight } from '../shared/windowFit';
+import { enableResultKeyboardNavigation } from './resultNavigation';
 
 const SEARCH_DEBOUNCE_MS = 400;
 
@@ -263,6 +264,9 @@ function flashButton(button: HTMLButtonElement, tempText: string): void {
 
 const debouncedBankSearch = debounce((q: string) => void runBankSearch(q), SEARCH_DEBOUNCE_MS);
 const debouncedBranchSearch = debounce((q: string) => void runBranchSearch(q), SEARCH_DEBOUNCE_MS);
+
+enableResultKeyboardNavigation(bankQueryInput, bankResults);
+enableResultKeyboardNavigation(branchQueryInput, branchResults);
 
 bankForm.addEventListener('submit', (event) => {
   event.preventDefault();
